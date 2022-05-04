@@ -306,3 +306,41 @@ window.addEventListener('keyup', (e)=>{
 })
 
 
+const mouse = new Vector()
+
+window.addEventListener('touchstart', (e)=>{
+    mouse.mult(0)
+    mouse.add(new Vector(e.touches[0].clientX,e.touches[0].clientY))
+})
+window.addEventListener('touchmove', (e)=>{
+    actualMouse = new Vector(e.changedTouches[0].clientX,e.changedTouches[0].clientY);
+    resultMouse = Vector.sub(mouse,actualMouse)
+    if(keyBoard.d.press=true && resultMouse.x <-150){
+        player.moveX(0.5)
+    }
+    if(keyBoard.d.press=true && resultMouse.x>150){
+        player.moveX(-0.5)
+    }
+    console.log(resultMouse)
+    console.log(player.position)
+
+})
+window.addEventListener('touchend', (e)=>{
+    actualMouse = new Vector(e.changedTouches[0].clientX,e.changedTouches[0].clientY);
+    resultMouse = Vector.sub(mouse,actualMouse)
+    if(resultMouse.y >0)
+        if(player.jump <2){
+            keyBoard.w.press = true
+            player.jump++;
+            player.isGrounded = false;
+            const jumpForce = new Vector(0,-15)
+            player.applyForce(jumpForce)
+        }
+    mouse.mult(0)
+    keyBoard.d.press = false
+    keyBoard.a.press = false
+    player.velocity.x = 0
+    player.acc.x = 0
+})
+
+

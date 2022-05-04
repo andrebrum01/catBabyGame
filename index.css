@@ -38,3 +38,20 @@ canvas {
 #endGame img{
     height: 90%;
 }
+
+.btn-fullscren{
+    display: none;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    padding: 5px;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    background-color: aliceblue;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+}

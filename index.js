@@ -4,6 +4,26 @@ const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 const rect = canvas.getBoundingClientRect();
 const scale = new Vector(canvas.width / rect.width, canvas.height / rect.height)
+const isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
 // Global Variables
 var colided = false
 // const gravit = 0.98
@@ -18,7 +38,6 @@ background.src="./assets/Background/Blue.png";
 
 // const imagePlatform = new Image();
 imagePlatform="./assets/Terrain/Terrain.png";
-
 
 const mouse = new Vector()
 const mouseMove = new Vector()
@@ -35,13 +54,6 @@ var keyBoard ={
     lastKey:null
 
 }
-
-
-
-// width = 1024;
-// height = 576;
-
-
 
 
 
@@ -250,8 +262,6 @@ drawCanvas();
 animate();
 
 
-
-
 function clearCanvas(ctx) {
     ctx.beginPath();
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -317,7 +327,7 @@ window.addEventListener('keyup', (e)=>{
 })
 
 
-
+//  Mouse Events
 canvas.addEventListener('touchstart', (e)=>{
     // c.strokeStyle = "red 1px"
     
@@ -359,3 +369,10 @@ canvas.addEventListener('touchend', (e)=>{
 })
 
 
+window.addEventListener("resize",()=>{
+    const btnFullScreen = document.querySelector(".btn-fullscren");
+    isMobile.any() ? btnFullScreen.style= "display: flex":btnFullScreen.style= "display: none";
+    btnFullScreen.addEventListener("click",()=>{
+        canvas.requestFullscreen()
+    });
+})

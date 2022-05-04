@@ -2,7 +2,8 @@
 // General configutarion
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
-
+const rect = canvas.getBoundingClientRect();
+const scale = new Vector(canvas.width / rect.width, canvas.height / rect.height)
 // Global Variables
 var colided = false
 // const gravit = 0.98
@@ -19,7 +20,8 @@ background.src="./assets/Background/Blue.png";
 imagePlatform="./assets/Terrain/Terrain.png";
 
 
-
+const mouse = new Vector()
+const mouseMove = new Vector()
 var keyBoard ={
     a:{
         press:false
@@ -159,14 +161,13 @@ const cat = new Cat({
 
 
 function animate(timestamp){
-
+    
 
     // Se não Colider
     if(!player.detectionColision(enemy,()=>console.log('Colision Detected'))){
         // Draw canvas
         window.requestAnimationFrame(animate);
         clearCanvas(c);
-
 
         drawCanvas();
         drawGround();
@@ -183,8 +184,18 @@ function animate(timestamp){
         player.update();
         cat.update(player);
         
-
-        
+        if(mouse.mag() != 0){
+            c.beginPath();
+            c.fillStyle = "rgba(250,250,250,.7)"
+            c.arc(mouse.x*scale.x, mouse.y*scale.y, 250, 0, 2 * Math.PI);
+            c.fill();
+            c.closePath();
+            c.beginPath();
+            c.fillStyle = "rgba(250,50,50,1)"
+            c.arc(mouseMove.x*scale.x, mouseMove.y*scale.y, 25, 0, 2 * Math.PI);
+            c.fill();
+            c.closePath();
+        }
 
         if(!lastTime){lastTime=timestamp;}
         // calculate the elapsed time
@@ -306,29 +317,26 @@ window.addEventListener('keyup', (e)=>{
 })
 
 
-const mouse = new Vector()
 
-window.addEventListener('touchstart', (e)=>{
+canvas.addEventListener('touchstart', (e)=>{
+    // c.strokeStyle = "red 1px"
+    
+
     mouse.mult(0)
-    mouse.add(new Vector(e.touches[0].clientX,e.touches[0].clientY))
+    mouse.add(new Vector(e.touches[0].clientX - rect.left,e.touches[0].clientY- rect.top))
+    mouseMove.set(mouse)
+    console.log(mouse)
 })
-window.addEventListener('touchmove', (e)=>{
-    actualMouse = new Vector(e.changedTouches[0].clientX,e.changedTouches[0].clientY);
-    resultMouse = Vector.sub(mouse,actualMouse)
-    if(keyBoard.d.press=true && resultMouse.x <-150){
+canvas.addEventListener('touchmove', (e)=>{
+    mouseMove.set(new Vector(e.changedTouches[0].clientX- rect.left,e.changedTouches[0].clientY- rect.top));
+    resultMouse = Vector.sub(mouse,mouseMove)
+    if(keyBoard.d.press=true && resultMouse.x <-125){
         player.moveX(0.5)
     }
-    if(keyBoard.d.press=true && resultMouse.x>150){
+    if(keyBoard.d.press=true && resultMouse.x>125){
         player.moveX(-0.5)
     }
-    console.log(resultMouse)
-    console.log(player.position)
-
-})
-window.addEventListener('touchend', (e)=>{
-    actualMouse = new Vector(e.changedTouches[0].clientX,e.changedTouches[0].clientY);
-    resultMouse = Vector.sub(mouse,actualMouse)
-    if(resultMouse.y >0)
+    if(resultMouse.y >125)
         if(player.jump <2){
             keyBoard.w.press = true
             player.jump++;
@@ -336,6 +344,13 @@ window.addEventListener('touchend', (e)=>{
             const jumpForce = new Vector(0,-15)
             player.applyForce(jumpForce)
         }
+    console.log(resultMouse)
+    console.log(player.position)
+
+})
+canvas.addEventListener('touchend', (e)=>{
+
+    mouseMove.mult(0)
     mouse.mult(0)
     keyBoard.d.press = false
     keyBoard.a.press = false

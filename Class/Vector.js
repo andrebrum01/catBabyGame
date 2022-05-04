@@ -5,6 +5,10 @@ class Vector {
         this.y = y_;
     }
 
+    set (vector){
+        this.x =vector.x
+        this.y =vector.y
+    }
     add(vector={x:0,y:0}){
         this.x+=vector.x;
         this.y+=vector.y;

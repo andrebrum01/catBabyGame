@@ -1,0 +1,5 @@
+{
+    "livePreview.defaultPreviewPath": "/index.html",
+    "livePreview.autoRefreshPreview": "On Changes to Saved Files",
+    "livePreview.serverKeepAliveAfterEmbeddedPreviewClose": 10
+}

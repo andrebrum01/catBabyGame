@@ -1,0 +1,38 @@
+* { margin:0; padding:0; }
+html, body { width:100%; height:100%; }
+
+#stage {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    /* border: 2px solid black */
+    background-color: #211f30;
+}
+canvas { 
+    position: absolute;
+    display:block;     /* to remove the scrollbars */
+    left: 0; 
+    right: 0; 
+    top: 0;
+    bottom: 0;
+    margin: auto; 
+    /* width: 100vw; */
+    height: 100vh;
+}
+#endGame {
+    position: absolute;
+    display:none; 
+    left: 0; 
+    right: 0; 
+    top: 0;
+    bottom: 0;
+    margin: auto; 
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#endGame img{
+    height: 90%;
+}

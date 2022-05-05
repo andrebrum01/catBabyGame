@@ -5,7 +5,7 @@ class Vector {
         this.y = y_;
     }
 
-    set (vector){
+    set(vector){
         this.x =vector.x
         this.y =vector.y
     }
@@ -55,10 +55,10 @@ class Vector {
     print(){
         return `x: ${this.x}, y: ${this.y}`
     }
+    
     static dist(vector1,vector2){
         return Math.floor(Math.sqrt(Math.pow(vector1.x - vector2.x,2)+Math.pow(vector1.y - vector2.y,2)));
     }
-
     static add(vector1,vector2){
         return new Vector (vector1.x+vector2.x,vector1.y+vector2.y);
     }

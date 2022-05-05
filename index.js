@@ -2,8 +2,8 @@
 // General configutarion
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
-const rect = canvas.getBoundingClientRect();
-const scale = new Vector(canvas.width / rect.width, canvas.height / rect.height)
+let rect = canvas.getBoundingClientRect();
+let scale = new Vector(canvas.width / rect.width, canvas.height / rect.height)
 const isMobile = {
     Android: function() {
         return navigator.userAgent.match(/Android/i);
@@ -330,23 +330,20 @@ window.addEventListener('keyup', (e)=>{
 //  Mouse Events
 canvas.addEventListener('touchstart', (e)=>{
     // c.strokeStyle = "red 1px"
-    
-
     mouse.mult(0)
     mouse.add(new Vector(e.touches[0].clientX - rect.left,e.touches[0].clientY- rect.top))
     mouseMove.set(mouse)
-    console.log(mouse)
 })
 canvas.addEventListener('touchmove', (e)=>{
     mouseMove.set(new Vector(e.changedTouches[0].clientX- rect.left,e.changedTouches[0].clientY- rect.top));
     resultMouse = Vector.sub(mouse,mouseMove)
-    if(keyBoard.d.press=true && resultMouse.x <-125){
+    if(keyBoard.d.press=true && resultMouse.x <-25){
         player.moveX(0.5)
     }
-    if(keyBoard.d.press=true && resultMouse.x>125){
+    if(keyBoard.d.press=true && resultMouse.x>25){
         player.moveX(-0.5)
     }
-    if(resultMouse.y >125)
+    if(resultMouse.y >25)
         if(player.jump <2){
             keyBoard.w.press = true
             player.jump++;
@@ -369,10 +366,21 @@ canvas.addEventListener('touchend', (e)=>{
 })
 
 
+
+const btnFullScreen = document.querySelector(".btn-fullscren");
+isMobile.any() ? btnFullScreen.style= "display: flex":btnFullScreen.style= "display: none";
+btnFullScreen.addEventListener("click",()=>{
+    canvas.requestFullscreen()
+});
+
 window.addEventListener("resize",()=>{
-    const btnFullScreen = document.querySelector(".btn-fullscren");
-    isMobile.any() ? btnFullScreen.style= "display: flex":btnFullScreen.style= "display: none";
-    btnFullScreen.addEventListener("click",()=>{
-        canvas.requestFullscreen()
-    });
+    rect = canvas.getBoundingClientRect();
+    scale = new Vector(canvas.width / rect.width, canvas.height / rect.height);
 })
+
+window.screen.orientation
+    .lock("landscape")
+    .then(
+        success => console.log(success),
+        failure => console.log(failure)
+    )

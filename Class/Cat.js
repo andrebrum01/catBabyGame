@@ -4,11 +4,6 @@ class Cat extends Sprite{
         this.jump=0;
     }
 
-    // moveX(x){
-    //     const velVector = new Vector(x,0)
-    //     this.acc.add(velVector);        
-    // }
-
     moveY(y){
         const velVector = new Vector(0,y)
         this.acc.add(velVector);               
@@ -71,8 +66,6 @@ class Cat extends Sprite{
         this.animationVerify(perseguition);
     }
 
-    
-
     detectionBorder(){
         if( this.acc.x + this.position.x + this.width + this.velocity.x > canvas.width){
             this.acc.x = 0
@@ -125,6 +118,4 @@ class Cat extends Sprite{
             this.modifyAnimation("sitDown")
         }
     }
-
-
 }

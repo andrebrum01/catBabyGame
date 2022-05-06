@@ -370,17 +370,15 @@ canvas.addEventListener('touchend', (e)=>{
 const btnFullScreen = document.querySelector(".btn-fullscren");
 isMobile.any() ? btnFullScreen.style= "display: flex":btnFullScreen.style= "display: none";
 btnFullScreen.addEventListener("click",()=>{
-    canvas.requestFullscreen()
+    canvas.requestFullscreen().then(()=>{
+        window.screen.orientation.lock('landscape').catch((e)=> {
+            document.exitFullscreen();
+            console.log(e)
+        });
+    });
 });
 
 window.addEventListener("resize",()=>{
     rect = canvas.getBoundingClientRect();
     scale = new Vector(canvas.width / rect.width, canvas.height / rect.height);
 })
-
-window.screen.orientation
-    .lock("landscape")
-    .then(
-        success => console.log(success),
-        failure => console.log(failure)
-    )
